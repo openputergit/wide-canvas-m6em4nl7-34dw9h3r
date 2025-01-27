@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTrove - Ultimate Electronics Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #3498db;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-blue-600 text-white p-4 fixed w-full top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold">TechTrove</h1>
+                <div class="relative hidden md:block">
+                    <input type="search" placeholder="Search products..." class="w-64 px-4 py-2 rounded-full text-gray-800 focus:outline-none">
+                    <i class="bi bi-search absolute right-3 top-2.5 text-gray-500"></i>
+                </div>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="hover:text-blue-200">Home</a>
+                <a href="#categories" class="hover:text-blue-200">Categories</a>
+                <a href="#deals" class="hover:text-blue-200">Deals</a>
+                <a href="#support" class="hover:text-blue-200">Support</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="cartBtn" class="relative hover:text-blue-200">
+                    <i class="bi bi-cart text-xl"></i>
+                    <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">0</span>
+                </button>
+                <button id="wishlistBtn" class="relative hover:text-blue-200">
+                    <i class="bi bi-heart text-xl"></i>
+                    <span id="wishlistCount" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">0</span>
+                </button>
+                <button id="loginBtn" class="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg w-full max-w-md">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="modalTitle" class="text-2xl font-bold">Login</h2>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <form id="authForm" class="space-y-4">
+                <div id="nameField" class="hidden">
+                    <label class="block text-gray-700">Full Name</label>
+                    <input type="text" name="name" class="w-full p-2 border rounded" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Email</label>
+                    <input type="email" name="email" class="w-full p-2 border rounded" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700">Password</label>
+                    <input type="password" name="password" class="w-full p-2 border rounded" required>
+                </div>
+                <div id="phoneField" class="hidden">
+                    <label class="block text-gray-700">Phone Number</label>
+                    <input type="tel" name="phone" class="w-full p-2 border rounded">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                    <span id="authBtnText">Login</span>
+                    <div class="loader inline-block ml-2"></div>
+                </button>
+                <p class="text-center">
+                    <a id="toggleAuth" href="#" class="text-blue-600">Don't have an account? Register</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section with Slider -->
+    <section class="mt-20">
+        <div class="relative">
+            <div id="heroSlider" class="w-full h-[500px] relative overflow-hidden">
+                <!-- Slider images will be loaded here -->
+            </div>
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                <button class="w-3 h-3 rounded-full bg-white"></button>
+                <button class="w-3 h-3 rounded-full bg-white opacity-50"></button>
+                <button class="w-3 h-3 rounded-full bg-white opacity-50"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="py-12 px-4">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-8">Shop by Category</h2>
+            <div class="category-scroll flex space-x-4 overflow-x-auto pb-4">
+                <!-- Categories will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section id="featured" class="py-12 px-4 bg-gray-100">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-8">Featured Products</h2>
+            <div id="featuredGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Featured products will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Deals Section -->
+    <section id="deals" class="py-12 px-4">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-8">Hot Deals</h2>
+            <div id="dealsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Deals will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">TechTrove</h3>
+                    <p>Your one-stop shop for all things electronic.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-400">About Us</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Contact</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Shipping Info</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Returns</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Customer Service</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-400">My Account</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Track Order</a></li>
+                        <li><a href="#" class="hover:text-blue-400">Support</a></li>
+                        <li><a href="#" class="hover:text-blue-400">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Newsletter</h4>
+                    <form class="space-y-4">
+                        <input type="email" placeholder="Your email" class="w-full p-2 rounded text-gray-800">
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize state
+        let isLoggedIn = false;
+        let currentUser = null;
+        let cart = [];
+        let wishlist = [];
+        const USER_KEY = 'tech_trove_user';
+        const APP_SLUG = 'tech-trove-shop';
+
+        // Categories data
+        const categories = [
+            { id: 1, name: 'Smartphones', icon: 'bi-phone' },
+            { id: 2, name: 'Laptops', icon: 'bi-laptop' },
+            { id: 3, name: 'Audio', icon: 'bi-headphones' },
+            { id: 4, name: 'Gaming', icon: 'bi-controller' },
+            { id: 5, name: 'Cameras', icon: 'bi-camera' },
+            { id: 6, name: 'TV & Home', icon: 'bi-tv' },
+            { id: 7, name: 'Accessories', icon: 'bi-usb-plug' },
+            { id: 8, name: 'Smart Home', icon: 'bi-house-door' }
+        ];
+
+        // Product data
+        const products = [
+            { id: 1, name: 'iPhone 13 Pro', price: 999.99, category: 1, image: 'https://source.unsplash.com/random/400x300/?iphone' },
+            { id: 2, name: 'MacBook Pro M1', price: 1299.99, category: 2, image: 'https://source.unsplash.com/random/400x300/?macbook' },
+            { id: 3, name: 'Sony WH-1000XM4', price: 349.99, category: 3, image: 'https://source.unsplash.com/random/400x300/?headphones' },
+            { id: 4, name: 'PS5 Console', price: 499.99, category: 4, image: 'https://source.unsplash.com/random/400x300/?ps5' },
+            { id: 5, name: 'Canon EOS R5', price: 3899.99, category: 5, image: 'https://source.unsplash.com/random/400x300/?camera' },
+            { id: 6, name: 'LG OLED C1', price: 1999.99, category: 6, image: 'https://source.unsplash.com/random/400x300/?tv' },
+            { id: 7, name: 'AirPods Pro', price: 249.99, category: 7, image: 'https://source.unsplash.com/random/400x300/?airpods' },
+            { id: 8, name: 'Echo Show 10', price: 249.99, category: 8, image: 'https://source.unsplash.com/random/400x300/?alexa' }
+        ];
+
+        // DOM Elements
+        const authModal = document.getElementById('authModal');
+        const authForm = document.getElementById('authForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const closeModal = document.getElementById('closeModal');
+        const toggleAuth = document.getElementById('toggleAuth');
+        const modalTitle = document.getElementById('modalTitle');
+        const authBtnText = document.getElementById('authBtnText');
+        const nameField = document.getElementById('nameField');
+        const phoneField = document.getElementById('phoneField');
+        const cartCount = document.getElementById('cartCount');
+        const wishlistCount = document.getElementById('wishlistCount');
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategories();
+            renderProducts();
+            initializeSlider();
+            checkAuth();
+        });
+
+        // Functions
+        function renderCategories() {
+            const categoryContainer = document.querySelector('.category-scroll');
+            categoryContainer.innerHTML = categories.map(category => `
+                <div class="flex-shrink-0 w-40 p-4 bg-white rounded-lg shadow hover:shadow-lg transition-shadow text-center cursor-pointer">
+                    <i class="bi ${category.icon} text-3xl text-blue-600"></i>
+                    <h3 class="mt-2 font-medium">${category.name}</h3>
+                </div>
+            `).join('');
+        }
+
+        function renderProducts() {
+            const featuredGrid = document.getElementById('featuredGrid');
+            featuredGrid.innerHTML = products.slice(0, 4).map(product => `
+                <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-4">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-lg font-semibold mb-2">${product.name}</h3>
+                    <div class="flex justify-between items-center">
+                        <span class="text-blue-600 font-bold">$${product.price}</span>
+                        <div class="space-x-2">
+                            <button onclick="toggleWishlist(${product.id})" class="text-gray-500 hover:text-red-500">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                            <button onclick="addToCart(${product.id})" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function initializeSlider() {
+            const slider = document.getElementById('heroSlider');
+            const slides = [
+                { image: 'https://source.unsplash.com/random/1920x1080/?electronics', title: 'Latest Tech Deals' },
+                { image: 'https://source.unsplash.com/random/1920x1080/?smartphone', title: 'New Smartphones' },
+                { image: 'https://source.unsplash.com/random/1920x1080/?laptop', title: 'Premium Laptops' }
+            ];
+
+            slider.innerHTML = slides.map((slide, index) => `
+                <div class="absolute inset-0 transition-opacity duration-500 ${index === 0 ? 'opacity-100' : 'opacity-0'}">
+                    <img src="${slide.image}" alt="${slide.title}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-20 left-20 text-white">
+                        <h2 class="text-5xl font-bold mb-4">${slide.title}</h2>
+                        <button class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700">Shop Now</button>
+                    </div>
+                </div>
+            `).join('');
+
+            let currentSlide = 0;
+            setInterval(() => {
+                const slides = slider.children;
+                slides[currentSlide].classList.remove('opacity-100');
+                slides[currentSlide].classList.add('opacity-0');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.remove('opacity-0');
+                slides[currentSlide].classList.add('opacity-100');
+            }, 5000);
+        }
+
+        // Auth and Data Management
+        async function checkAuth() {
+            const userId = localStorage.getItem(USER_KEY);
+            if (userId) {
+                try {
+                    const response = await fetchData('read', 'users', null, { userId });
+                    if (response.data && response.data.length > 0) {
+                        login(response.data[0]);
+                    }
+                } catch (error) {
+                    console.error('Auth check failed:', error);
+                }
+            }
+        }
+
+        async function fetchData(action, table, id = null, data = null) {
+            try {
+                const response = await fetch('https://r0c8kgwocscg8gsokogwwsw4.zetaverse.one/db', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer 15huIlRqfffmNxO3Mo8RhwKrhCq2',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: currentUser?.userId || localStorage.getItem(USER_KEY),
+                        appSlug: APP_SLUG,
+                        action,
+                        table,
+                        id,
+                        data
+                    })
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        function login(user) {
+            currentUser = user;
+            localStorage.setItem(USER_KEY, user.userId);
+            isLoggedIn = true;
+            loginBtn.textContent = 'Logout';
+            authModal.classList.add('hidden');
+            loadUserData();
+        }
+
+        async function loadUserData() {
+            if (currentUser) {
+                try {
+                    const [cartResponse, wishlistResponse] = await Promise.all([
+                        fetchData('read', 'cart'),
+                        fetchData('read', 'wishlist')
+                    ]);
+                    cart = cartResponse.data || [];
+                    wishlist = wishlistResponse.data || [];
+                    updateCounts();
+                } catch (error) {
+                    console.error('Error loading user data:', error);
+                }
+            }
+        }
+
+        function updateCounts() {
+            cartCount.textContent = cart.length;
+            wishlistCount.textContent = wishlist.length;
+        }
+
+        async function addToCart(productId) {
+            if (!isLoggedIn) {
+                authModal.classList.remove('hidden');
+                return;
+            }
+
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                try {
+                    await fetchData('create', 'cart', null, { productId, ...product });
+                    cart.push(product);
+                    updateCounts();
+                    showNotification('Product added to cart!');
+                } catch (error) {
+                    console.error('Error adding to cart:', error);
+                    showNotification('Failed to add product to cart', 'error');
+                }
+            }
+        }
+
+        async function toggleWishlist(productId) {
+            if (!isLoggedIn) {
+                authModal.classList.remove('hidden');
+                return;
+            }
+
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                try {
+                    const isInWishlist = wishlist.some(item => item.productId === productId);
+                    if (isInWishlist) {
+                        await fetchData('delete', 'wishlist', null, { productId });
+                        wishlist = wishlist.filter(item => item.productId !== productId);
+                    } else {
+                        await fetchData('create', 'wishlist', null, { productId, ...product });
+                        wishlist.push(product);
+                    }
+                    updateCounts();
+                    showNotification(isInWishlist ? 'Removed from wishlist' : 'Added to wishlist');
+                } catch (error) {
+                    console.error('Error updating wishlist:', error);
+                    showNotification('Failed to update wishlist', 'error');
+                }
+            }
+        }
+
+        function showNotification(message, type = 'success') {
+            // Implementation of notification system can be added here
+            alert(message);
+        }
+
+        // Initialize the application
+        checkAuth();
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
